@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#set the default value
+URL=""
+
+if [ ! -z $1 ]; then
+	if [ "$1" == "help" ]  || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+		printf "Usage: $0 <server url>  Get the docker registry credentials for the given URL from the secretservice docker credential store\n"
+		exit
+	fi
+	URL="$1"
+fi
+
+secret=$(echo "$URL" | docker-credential-secretservice get | jq .Secret -r)
+if [ -z $secret ]; then
+	echo "no password found"
+	exit
+fi
+
+username=$(echo "$URL" | docker-credential-secretservice get | jq .Username -r)
+if [ -z $username ]; then
+	echo "no password found"
+	exit
+fi
+
+auth="$username:$secret"
+echo $auth
