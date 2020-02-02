@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#from https://docs.docker.com/install/linux/docker-ce/debian/
+
 sudo apt-get install \
     apt-transport-https \
     ca-certificates \
